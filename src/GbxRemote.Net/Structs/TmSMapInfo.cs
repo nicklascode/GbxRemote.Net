@@ -2,7 +2,7 @@
 
 public class TmSMapInfo
 {
-    public string Uid { get; set; }
+    public string UId { get; set; }
     public string Name { get; set; }
     public string FileName { get; set; }
     public string Author { get; set; }
