@@ -1,4 +1,4 @@
-![GbxRemote.NET](logo.png)
+![GbxRemote.NET](https://raw.githubusercontent.com/EvoEsports/GbxRemote.Net/refs/heads/master/logo.png)
 <div align="center">
     
 [![Nuget](https://img.shields.io/nuget/v/GbxRemote.NET?style=flat-square)](https://www.nuget.org/packages/GbxRemote.Net)
