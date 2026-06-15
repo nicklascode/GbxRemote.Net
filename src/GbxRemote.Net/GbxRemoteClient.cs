@@ -18,7 +18,7 @@ public partial class GbxRemoteClient : NadeoXmlRpcClient, IGbxRemoteClient
     /// <summary>
     ///     This is the API version the client will be using.
     /// </summary>
-    public const string DefaultApiVersion = "2023-03-24";
+    public const string DefaultApiVersion = "v2011-02-21";
 
     private readonly ILogger _logger;
     private readonly GbxRemoteClientOptions _options;
@@ -91,7 +91,7 @@ public partial class GbxRemoteClient : NadeoXmlRpcClient, IGbxRemoteClient
         if (!await ConnectAsync(_options.ConnectionRetries, _options.ConnectionRetryTimeout))
             return false;
 
-        await SetApiVersionAsync(DefaultApiVersion);
+        // await SetApiVersionAsync(DefaultApiVersion); NOT IN TMNF
 
         if (await AuthenticateAsync(login, password))
         {
