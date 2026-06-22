@@ -9,13 +9,13 @@ public class TmPlayerRanking
     public int PlayerId { get; set; }
     public int Rank { get; set; }
 
-    [Obsolete] public int BestTime { get; set; }
+    public int BestTime { get; set; }
 
-    [Obsolete] public int[] BestCheckpoints { get; set; }
+    public int[] BestCheckpoints { get; set; }
 
-    [Obsolete] public int Score { get; set; }
+    public int Score { get; set; }
 
-    [Obsolete] public int NbrLapsFinished { get; set; }
+    public int NbrLapsFinished { get; set; }
 
-    [Obsolete] public double LadderScore { get; set; }
+    public double LadderScore { get; set; }
 }

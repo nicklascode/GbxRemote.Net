@@ -531,154 +531,154 @@ public interface IGbxRemoteClient : INadeoXmlRpcClient
 
     #endregion
 
-    #region Maps
+    #region Challenges
 
     /// <summary>
-    /// Returns the current map index in the selection, or -1 if the map is no longer in the selection.
+    /// Returns the current Challenge index in the selection, or -1 if the Challenge is no longer in the selection.
     /// </summary>
     /// <returns></returns>
-    public Task<int> GetCurrentMapIndexAsync();
+    public Task<int> GetCurrentChallengeIndexAsync();
 
     /// <summary>
-    /// Returns the map index in the selection that will be played next (unless the current one is restarted...)
+    /// Returns the Challenge index in the selection that will be played next (unless the current one is restarted...)
     /// </summary>
     /// <returns></returns>
-    public Task<int> GetNextMapIndexAsync();
+    public Task<int> GetNextChallengeIndexAsync();
 
     /// <summary>
-    /// Sets the map index in the selection that will be played next (unless the current one is restarted...)
+    /// Sets the Challenge index in the selection that will be played next (unless the current one is restarted...)
     /// </summary>
-    /// <param name="mapIndex"></param>
+    /// <param name="ChallengeIndex"></param>
     /// <returns></returns>
-    public Task<bool> SetNextMapIndexAsync(int mapIndex);
+    public Task<bool> SetNextChallengeIndexAsync(int ChallengeIndex);
 
     /// <summary>
-    /// Immediately jumps to the map designated by its identifier (it must be in the selection).
+    /// Immediately jumps to the Challenge designated by its identifier (it must be in the selection).
     /// </summary>
-    /// <param name="mapId"></param>
+    /// <param name="ChallengeId"></param>
     /// <returns></returns>
-    public Task<bool> SetNextMapIdentAsync(string mapId);
+    public Task<bool> SetNextChallengeIdentAsync(string ChallengeId);
 
     /// <summary>
-    /// Immediately jumps to the map designated by the index in the selection.
+    /// Immediately jumps to the Challenge designated by the index in the selection.
     /// </summary>
-    /// <param name="mapIndex"></param>
+    /// <param name="ChallengeIndex"></param>
     /// <returns></returns>
-    public Task<bool> JumpToMapIndexAsync(int mapIndex);
+    public Task<bool> JumpToChallengeIndexAsync(int ChallengeIndex);
 
     /// <summary>
-    /// Immediately jumps to the map designated by its identifier (it must be in the selection).
+    /// Immediately jumps to the Challenge designated by its identifier (it must be in the selection).
     /// </summary>
-    /// <param name="mapId"></param>
+    /// <param name="ChallengeId"></param>
     /// <returns></returns>
-    public Task<bool> JumpToMapIdentAsync(string mapId);
+    public Task<bool> JumpToChallengeIdentAsync(string ChallengeId);
 
     /// <summary>
-    /// Returns a struct containing the infos for the current map. The struct contains the following fields : Name, UId,
-    /// FileName, Author, Environnement, Mood, BronzeTime, SilverTime, GoldTime, AuthorTime, CopperPrice, LapRace, MapType,
-    /// MapStyle.
+    /// Returns a struct containing the infos for the current Challenge. The struct contains the following fields : Name, UId,
+    /// FileName, Author, Environnement, Mood, BronzeTime, SilverTime, GoldTime, AuthorTime, CopperPrice, LapRace, ChallengeType,
+    /// ChallengeStyle.
     /// (NbLaps and NbCheckpoints are also present but always set to -1)
     /// </summary>
     /// <returns></returns>
-    public Task<TmMapInfo> GetCurrentMapInfoAsync();
+    public Task<TmChallengeInfo> GetCurrentChallengeInfoAsync();
 
     /// <summary>
-    /// Returns a struct containing the infos for the next map. The struct contains the following fields : Name, UId,
-    /// FileName, Author, Environnement, Mood, BronzeTime, SilverTime, GoldTime, AuthorTime, CopperPrice, LapRace, MapType,
-    /// MapStyle.
+    /// Returns a struct containing the infos for the next Challenge. The struct contains the following fields : Name, UId,
+    /// FileName, Author, Environnement, Mood, BronzeTime, SilverTime, GoldTime, AuthorTime, CopperPrice, LapRace, ChallengeType,
+    /// ChallengeStyle.
     /// (NbLaps and NbCheckpoints are also present but always set to -1)
     /// </summary>
     /// <returns></returns>
-    public Task<TmMapInfo> GetNextMapInfoAsync();
+    public Task<TmChallengeInfo> GetNextChallengeInfoAsync();
 
     /// <summary>
-    /// Returns a struct containing the infos for the map with the specified filename. The struct contains the following
+    /// Returns a struct containing the infos for the Challenge with the specified filename. The struct contains the following
     /// fields : Name, UId, FileName, Author, Environnement, Mood, BronzeTime, SilverTime, GoldTime, AuthorTime,
-    /// CopperPrice, LapRace, MapType, MapStyle.
+    /// CopperPrice, LapRace, ChallengeType, ChallengeStyle.
     /// (NbLaps and NbCheckpoints are also present but always set to -1)
     /// </summary>
     /// <param name="filename"></param>
     /// <returns></returns>
-    public Task<TmMapInfo> GetMapInfoAsync(string filename);
+    public Task<TmChallengeInfo> GetChallengeInfoAsync(string filename);
 
     /// <summary>
-    /// Returns a boolean if the map with the specified filename matches the current server settings.
+    /// Returns a boolean if the Challenge with the specified filename matches the current server settings.
     /// </summary>
     /// <param name="filename"></param>
     /// <returns></returns>
-    public Task<bool> CheckMapForCurrentServerParamsAsync(string filename);
+    public Task<bool> CheckChallengeForCurrentServerParamsAsync(string filename);
 
     /// <summary>
-    /// Returns a list of maps among the current selection of the server. This method take two parameters. The first
+    /// Returns a list of Challenges among the current selection of the server. This method take two parameters. The first
     /// parameter specifies the maximum number of infos to be returned, and the second one the starting index in the
     /// selection.
     /// The list is an array of structures. Each structure contains the following fields : Name, UId, FileName,
-    /// Environnement, Author, GoldTime, CopperPrice, MapType, MapStyle.
+    /// Environnement, Author, GoldTime, CopperPrice, ChallengeType, ChallengeStyle.
     /// </summary>
     /// <param name="maxInfos"></param>
     /// <param name="startIndex"></param>
     /// <returns></returns>
-    public Task<TmMapInfo[]> GetMapListAsync(int maxInfos, int startIndex);
+    public Task<TmChallengeInfo[]> GetChallengeListAsync(int maxInfos, int startIndex);
 
     /// <summary>
-    /// Add the map with the specified filename at the end of the current selection. Only available to Admin.
+    /// Add the Challenge with the specified filename at the end of the current selection. Only available to Admin.
     /// </summary>
     /// <param name="filename"></param>
     /// <returns></returns>
-    public Task<bool> AddMapAsync(string filename);
+    public Task<bool> AddChallengeAsync(string filename);
 
     /// <summary>
-    /// Add the list of maps with the specified filenames at the end of the current selection. The list of maps to add is
+    /// Add the list of Challenges with the specified filenames at the end of the current selection. The list of Challenges to add is
     /// an array of strings. Only available to Admin.
     /// </summary>
     /// <param name="filenames"></param>
     /// <returns></returns>
-    public Task<int> AddMapListAsync(Array filenames);
+    public Task<int> AddChallengeListAsync(Array filenames);
 
     /// <summary>
-    /// Remove the map with the specified filename from the current selection. Only available to Admin.
+    /// Remove the Challenge with the specified filename from the current selection. Only available to Admin.
     /// </summary>
     /// <param name="filename"></param>
     /// <returns></returns>
-    public Task<bool> RemoveMapAsync(string filename);
+    public Task<bool> RemoveChallengeAsync(string filename);
 
     /// <summary>
-    /// Remove the list of maps with the specified filenames from the current selection. The list of maps to remove is an
+    /// Remove the list of Challenges with the specified filenames from the current selection. The list of Challenges to remove is an
     /// array of strings. Only available to Admin.
     /// </summary>
     /// <param name="filenames"></param>
     /// <returns></returns>
-    public Task<int> RemoveMapListAsync(Array filenames);
+    public Task<int> RemoveChallengeListAsync(Array filenames);
 
     /// <summary>
-    /// Insert the map with the specified filename after the current map. Only available to Admin.
+    /// Insert the Challenge with the specified filename after the current Challenge. Only available to Admin.
     /// </summary>
     /// <param name="filename"></param>
     /// <returns></returns>
-    public Task<bool> InsertMapAsync(string filename);
+    public Task<bool> InsertChallengeAsync(string filename);
 
     /// <summary>
-    /// Insert the list of maps with the specified filenames after the current map. The list of maps to insert is an array
+    /// Insert the list of Challenges with the specified filenames after the current Challenge. The list of Challenges to insert is an array
     /// of strings. Only available to Admin.
     /// </summary>
     /// <param name="filenames"></param>
     /// <returns></returns>
-    public Task<int> InsertMapListAsync(Array filenames);
+    public Task<int> InsertChallengeListAsync(Array filenames);
 
     /// <summary>
-    /// Set as next map the one with the specified filename, if it is present in the selection. Only available to Admin.
+    /// Set as next Challenge the one with the specified filename, if it is present in the selection. Only available to Admin.
     /// </summary>
     /// <param name="filename"></param>
     /// <returns></returns>
-    public Task<bool> ChooseNextMapAsync(string filename);
+    public Task<bool> ChooseNextChallengeAsync(string filename);
 
     /// <summary>
-    /// Set as next maps the list of maps with the specified filenames, if they are present in the selection. The list of
-    /// maps to choose is an array of strings. Only available to Admin.
+    /// Set as next Challenges the list of Challenges with the specified filenames, if they are present in the selection. The list of
+    /// Challenges to choose is an array of strings. Only available to Admin.
     /// </summary>
     /// <param name="filenames"></param>
     /// <returns></returns>
-    public Task<int> ChooseNextMapListAsync(Array filenames);
+    public Task<int> ChooseNextChallengeListAsync(Array filenames);
 
     #endregion
 

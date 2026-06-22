@@ -2,7 +2,6 @@ using System;
 
 namespace GbxRemoteNet.Structs;
 
-[Obsolete]
 public class TmGameInfo
 {
     /**

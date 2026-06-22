@@ -1,6 +1,6 @@
 namespace GbxRemoteNet.Structs;
 
-public class TmMapInfo
+public class TmChallengeInfo
 {
     public string UId { get; set; }
     public string Name { get; set; }

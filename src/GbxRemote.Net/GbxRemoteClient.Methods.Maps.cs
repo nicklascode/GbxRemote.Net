@@ -6,140 +6,140 @@ using GbxRemoteNet.XmlRpc;
 namespace GbxRemoteNet;
 
 /// <summary>
-/// Method Category: Maps
+/// Method Category: Challenges
 /// </summary>
 public partial class GbxRemoteClient
 {
-    public async Task<int> GetCurrentMapIndexAsync()
+    public async Task<int> GetCurrentChallengeIndexAsync()
     {
         return (int) XmlRpcTypes.ToNativeValue<int>(
-            await CallOrFaultAsync("GetCurrentMapIndex")
+            await CallOrFaultAsync("GetCurrentChallengeIndex")
         );
     }
 
-    public async Task<int> GetNextMapIndexAsync()
+    public async Task<int> GetNextChallengeIndexAsync()
     {
         return (int) XmlRpcTypes.ToNativeValue<int>(
-            await CallOrFaultAsync("GetNextMapIndex")
+            await CallOrFaultAsync("GetNextChallengeIndex")
         );
     }
 
-    public async Task<bool> SetNextMapIndexAsync(int mapIndex)
+    public async Task<bool> SetNextChallengeIndexAsync(int ChallengeIndex)
     {
         return (bool) XmlRpcTypes.ToNativeValue<bool>(
-            await CallOrFaultAsync("SetNextMapIndex")
+            await CallOrFaultAsync("SetNextChallengeIndex")
         );
     }
     
-    public async Task<bool> SetNextMapIdentAsync(string mapId)
+    public async Task<bool> SetNextChallengeIdentAsync(string ChallengeId)
     {
         return (bool) XmlRpcTypes.ToNativeValue<bool>(
-            await CallOrFaultAsync("SetNextMapIdent", mapId)
+            await CallOrFaultAsync("SetNextChallengeIdent", ChallengeId)
         );
     }
 
-    public async Task<bool> JumpToMapIndexAsync(int mapIndex)
+    public async Task<bool> JumpToChallengeIndexAsync(int ChallengeIndex)
     {
         return (bool) XmlRpcTypes.ToNativeValue<bool>(
-            await CallOrFaultAsync("JumpToMapIndex")
+            await CallOrFaultAsync("JumpToChallengeIndex")
         );
     }
 
-    public async Task<bool> JumpToMapIdentAsync(string mapId)
+    public async Task<bool> JumpToChallengeIdentAsync(string ChallengeId)
     {
         return (bool) XmlRpcTypes.ToNativeValue<bool>(
-            await CallOrFaultAsync("JumpToMapIdent", mapId)
+            await CallOrFaultAsync("JumpToChallengeIdent", ChallengeId)
         );
     }
 
-    public async Task<TmMapInfo> GetCurrentMapInfoAsync()
+    public async Task<TmChallengeInfo> GetCurrentChallengeInfoAsync()
     {
-        return (TmMapInfo) XmlRpcTypes.ToNativeValue<TmMapInfo>(
-            await CallOrFaultAsync("GetCurrentMapInfo")
+        return (TmChallengeInfo) XmlRpcTypes.ToNativeValue<TmChallengeInfo>(
+            await CallOrFaultAsync("GetCurrentChallengeInfo")
         );
     }
 
-    public async Task<TmMapInfo> GetNextMapInfoAsync()
+    public async Task<TmChallengeInfo> GetNextChallengeInfoAsync()
     {
-        return (TmMapInfo) XmlRpcTypes.ToNativeValue<TmMapInfo>(
-            await CallOrFaultAsync("GetNextMapInfo")
+        return (TmChallengeInfo) XmlRpcTypes.ToNativeValue<TmChallengeInfo>(
+            await CallOrFaultAsync("GetNextChallengeInfo")
         );
     }
 
-    public async Task<TmMapInfo> GetMapInfoAsync(string filename)
+    public async Task<TmChallengeInfo> GetChallengeInfoAsync(string filename)
     {
-        return (TmMapInfo) XmlRpcTypes.ToNativeValue<TmMapInfo>(
-            await CallOrFaultAsync("GetMapInfo", filename)
+        return (TmChallengeInfo) XmlRpcTypes.ToNativeValue<TmChallengeInfo>(
+            await CallOrFaultAsync("GetChallengeInfo", filename)
         );
     }
 
-    public async Task<bool> CheckMapForCurrentServerParamsAsync(string filename)
-    {
-        return (bool) XmlRpcTypes.ToNativeValue<bool>(
-            await CallOrFaultAsync("CheckMapForCurrentServerParams", filename)
-        );
-    }
-
-    public async Task<TmMapInfo[]> GetMapListAsync(int maxInfos, int startIndex)
-    {
-        return (TmMapInfo[]) XmlRpcTypes.ToNativeValue<TmMapInfo>(
-            await CallOrFaultAsync("GetMapList", maxInfos, startIndex)
-        );
-    }
-
-    public async Task<bool> AddMapAsync(string filename)
+    public async Task<bool> CheckChallengeForCurrentServerParamsAsync(string filename)
     {
         return (bool) XmlRpcTypes.ToNativeValue<bool>(
-            await CallOrFaultAsync("AddMap", filename)
+            await CallOrFaultAsync("CheckChallengeForCurrentServerParams", filename)
         );
     }
 
-    public async Task<int> AddMapListAsync(Array filenames)
+    public async Task<TmChallengeInfo[]> GetChallengeListAsync(int maxInfos, int startIndex)
+    {
+        return (TmChallengeInfo[]) XmlRpcTypes.ToNativeValue<TmChallengeInfo>(
+            await CallOrFaultAsync("GetChallengeList", maxInfos, startIndex)
+        );
+    }
+
+    public async Task<bool> AddChallengeAsync(string filename)
+    {
+        return (bool) XmlRpcTypes.ToNativeValue<bool>(
+            await CallOrFaultAsync("AddChallenge", filename)
+        );
+    }
+
+    public async Task<int> AddChallengeListAsync(Array filenames)
     {
         return (int) XmlRpcTypes.ToNativeValue<int>(
-            await CallOrFaultAsync("AddMapList", filenames)
+            await CallOrFaultAsync("AddChallengeList", filenames)
         );
     }
 
-    public async Task<bool> RemoveMapAsync(string filename)
+    public async Task<bool> RemoveChallengeAsync(string filename)
     {
         return (bool) XmlRpcTypes.ToNativeValue<bool>(
-            await CallOrFaultAsync("RemoveMap", filename)
+            await CallOrFaultAsync("RemoveChallenge", filename)
         );
     }
 
-    public async Task<int> RemoveMapListAsync(Array filenames)
+    public async Task<int> RemoveChallengeListAsync(Array filenames)
     {
         return (int) XmlRpcTypes.ToNativeValue<int>(
-            await CallOrFaultAsync("RemoveMapList", filenames)
+            await CallOrFaultAsync("RemoveChallengeList", filenames)
         );
     }
 
-    public async Task<bool> InsertMapAsync(string filename)
+    public async Task<bool> InsertChallengeAsync(string filename)
     {
         return (bool) XmlRpcTypes.ToNativeValue<bool>(
-            await CallOrFaultAsync("InsertMap", filename)
+            await CallOrFaultAsync("InsertChallenge", filename)
         );
     }
 
-    public async Task<int> InsertMapListAsync(Array filenames)
+    public async Task<int> InsertChallengeListAsync(Array filenames)
     {
         return (int) XmlRpcTypes.ToNativeValue<int>(
-            await CallOrFaultAsync("InsertMapList", filenames)
+            await CallOrFaultAsync("InsertChallengeList", filenames)
         );
     }
 
-    public async Task<bool> ChooseNextMapAsync(string filename)
+    public async Task<bool> ChooseNextChallengeAsync(string filename)
     {
         return (bool) XmlRpcTypes.ToNativeValue<bool>(
-            await CallOrFaultAsync("ChooseNextMap", filename)
+            await CallOrFaultAsync("ChooseNextChallenge", filename)
         );
     }
 
-    public async Task<int> ChooseNextMapListAsync(Array filenames)
+    public async Task<int> ChooseNextChallengeListAsync(Array filenames)
     {
         return (int) XmlRpcTypes.ToNativeValue<int>(
-            await CallOrFaultAsync("ChooseNextMapList", filenames)
+            await CallOrFaultAsync("ChooseNextChallengeList", filenames)
         );
     }
 }
