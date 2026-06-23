@@ -3,10 +3,10 @@ using GbxRemoteNet.Structs;
 
 namespace GbxRemoteNet.Events;
 
-public class MapGbxEventArgs : EventArgs
+public class ChallengeGbxEventArgs : EventArgs
 {
     /// <summary>
     /// Information about the map that will be/was played.
     /// </summary>
-    public TmSMapInfo Map { get; set; }
+    public TmSChallengeInfo Map { get; set; }
 }

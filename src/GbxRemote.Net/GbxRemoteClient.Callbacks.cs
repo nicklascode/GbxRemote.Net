@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using GbxRemoteNet.Enums;
 using GbxRemoteNet.Events;
 using GbxRemoteNet.Interfaces;
 using GbxRemoteNet.Structs;
@@ -20,8 +19,8 @@ public partial class GbxRemoteClient
     public event IGbxRemoteClient.AsyncEventHandler<EchoGbxEventArgs> OnEcho;
     public event IGbxRemoteClient.AsyncEventHandler OnBeginMatch;
     public event IGbxRemoteClient.AsyncEventHandler<EndMatchGbxEventArgs> OnEndMatch;
-    public event IGbxRemoteClient.AsyncEventHandler<MapGbxEventArgs> OnBeginMap;
-    public event IGbxRemoteClient.AsyncEventHandler<MapGbxEventArgs> OnEndMap;
+    public event IGbxRemoteClient.AsyncEventHandler<ChallengeGbxEventArgs> OnBeginChallenge;
+    public event IGbxRemoteClient.AsyncEventHandler<ChallengeGbxEventArgs> OnEndChallenge;
     public event IGbxRemoteClient.AsyncEventHandler<StatusChangedGbxEventArgs> OnStatusChanged;
     public event IGbxRemoteClient.AsyncEventHandler<PlayerInfoChangedGbxEventArgs> OnPlayerInfoChanged;
     public event IGbxRemoteClient.AsyncEventHandler<ManiaLinkPageActionGbxEventArgs> OnPlayerManialinkPageAnswer;
@@ -35,18 +34,10 @@ public partial class GbxRemoteClient
     public event IGbxRemoteClient.AsyncEventHandler<ScriptCloudGbxEventArgs> OnScriptCloudLoadData;
     public event IGbxRemoteClient.AsyncEventHandler<ScriptCloudGbxEventArgs> OnScriptCloudSaveData;
 
-    public async Task EnableCallbackTypeAsync(GbxCallbackType gbxCallbackType)
+    public async Task EnableCallbackTypeAsync()
     {
-        if (gbxCallbackType.HasFlag(GbxCallbackType.Internal))
-            await EnableCallbacksAsync(true);
-        if (gbxCallbackType.HasFlag(GbxCallbackType.ModeScript))
-            await TriggerModeScriptEventArrayAsync("XmlRpc.EnableCallbacks", "true");
-        if (gbxCallbackType.HasFlag(GbxCallbackType.Checkpoints))
-            await TriggerModeScriptEventArrayAsync("Trackmania.Event.SetCurLapCheckpointsMode", "always");
+        await EnableCallbacksAsync(true);
     }
-
-    public Task EnableCallbackTypeAsync() =>
-        EnableCallbackTypeAsync(GbxCallbackType.ModeScript | GbxCallbackType.Internal | GbxCallbackType.Checkpoints);
 
     private async Task InternalInvokeEventsAsync(Delegate[]? invocationList, EventArgs e)
     {
@@ -70,79 +61,72 @@ public partial class GbxRemoteClient
     {
         switch (call.Method)
         {
-            case "ManiaPlanet.PlayerConnect":
+            case "TrackMania.PlayerConnect":
                 await InternalInvokeEventsAsync(OnPlayerConnect?.GetInvocationList(), new PlayerConnectGbxEventArgs
                 {
                     Login = (string) XmlRpcTypes.ToNativeValue<string>(call.Arguments[0]),
                     IsSpectator = (bool) XmlRpcTypes.ToNativeValue<bool>(call.Arguments[1])
                 });
                 break;
-            case "ManiaPlanet.PlayerDisconnect":
+            case "TrackMania.PlayerDisconnect":
                 await InternalInvokeEventsAsync(OnPlayerDisconnect?.GetInvocationList(), new PlayerDisconnectGbxEventArgs
                 {
                     Login = (string) XmlRpcTypes.ToNativeValue<string>(call.Arguments[0]),
                     Reason = (string) XmlRpcTypes.ToNativeValue<string>(call.Arguments[1])
                 });
                 break;
-            case "ManiaPlanet.PlayerChat":
+            case "TrackMania.PlayerChat":
                 await InternalInvokeEventsAsync(OnPlayerChat?.GetInvocationList(), new PlayerChatGbxEventArgs
                 {
                     PlayerId = (int) XmlRpcTypes.ToNativeValue<int>(call.Arguments[0]),
                     Login = (string) XmlRpcTypes.ToNativeValue<string>(call.Arguments[1]),
                     Text = (string) XmlRpcTypes.ToNativeValue<string>(call.Arguments[2]),
                     IsRegisteredCmd = (bool) XmlRpcTypes.ToNativeValue<bool>(call.Arguments[3]),
-                    Options = (int) XmlRpcTypes.ToNativeValue<int>(call.Arguments[4])
                 });
                 break;
-            case "ManiaPlanet.Echo":
+            case "TrackMania.Echo":
                 await InternalInvokeEventsAsync(OnEcho?.GetInvocationList(), new EchoGbxEventArgs
                 {
                     InternalParam = (string) XmlRpcTypes.ToNativeValue<string>(call.Arguments[0]),
                     PublicParam = (string) XmlRpcTypes.ToNativeValue<string>(call.Arguments[1])
                 });
                 break;
-            case "ManiaPlanet.BeginMatch":
+            case "TrackMania.BeginMatch":
                 await InternalInvokeEventsAsync(OnBeginMatch?.GetInvocationList(), new EventArgs());
                 break;
-            case "ManiaPlanet.EndMatch":
+            case "TrackMania.EndMatch":
                 await InternalInvokeEventsAsync(OnEndMatch?.GetInvocationList(), new EndMatchGbxEventArgs
                 {
                     Rankings = (TmSPlayerRanking[]) XmlRpcTypes.ToNativeValue<TmSPlayerRanking>(call.Arguments[0]),
                     WinnerTeam = (int) XmlRpcTypes.ToNativeValue<int>(call.Arguments[1])
                 });
                 break;
-            case "ManiaPlanet.BeginMap":
-                await InternalInvokeEventsAsync(OnBeginMap?.GetInvocationList(), new MapGbxEventArgs
+            case "TrackMania.BeginMap":
+                await InternalInvokeEventsAsync(OnBeginChallenge?.GetInvocationList(), new ChallengeGbxEventArgs
                 {
-                    Map = (TmSMapInfo) XmlRpcTypes.ToNativeValue<TmSMapInfo>(call.Arguments[0])
+                    Map = (TmSChallengeInfo) XmlRpcTypes.ToNativeValue<TmSChallengeInfo>(call.Arguments[0])
                 });
                 break;
-            case "ManiaPlanet.EndMap":
-                await InternalInvokeEventsAsync(OnEndMap?.GetInvocationList(), new MapGbxEventArgs
+            case "TrackMania.EndMap":
+                await InternalInvokeEventsAsync(OnEndChallenge?.GetInvocationList(), new ChallengeGbxEventArgs
                 {
-                    Map = (TmSMapInfo) XmlRpcTypes.ToNativeValue<TmSMapInfo>(call.Arguments[0])
+                    Map = (TmSChallengeInfo) XmlRpcTypes.ToNativeValue<TmSChallengeInfo>(call.Arguments[0])
                 });
                 break;
-            case "ManiaPlanet.StatusChanged":
+            case "TrackMania.StatusChanged":
                 await InternalInvokeEventsAsync(OnStatusChanged?.GetInvocationList(), new StatusChangedGbxEventArgs
                 {
                     StatusCode = (int) XmlRpcTypes.ToNativeValue<int>(call.Arguments[0]),
                     StatusName = (string) XmlRpcTypes.ToNativeValue<string>(call.Arguments[1])
                 });
                 break;
-            case "ManiaPlanet.PlayerInfoChanged":
+            case "TrackMania.PlayerInfoChanged":
                 await InternalInvokeEventsAsync(OnPlayerInfoChanged?.GetInvocationList(), new PlayerInfoChangedGbxEventArgs
                 {
                     PlayerInfo = (TmSPlayerInfo) XmlRpcTypes.ToNativeValue<TmSPlayerInfo>(call.Arguments[0])
                 });
                 break;
-            case "ManiaPlanet.ModeScriptCallback":
-                await HandleModeScriptCallback(call);
-                break;
-            case "ManiaPlanet.ModeScriptCallbackArray":
-                await HandleModeScriptCallback(call);
-                break;
-            case "ManiaPlanet.PlayerManialinkPageAnswer":
+            case "TrackMania.PlayerManialinkPageAnswer":
                 await InternalInvokeEventsAsync(OnPlayerManialinkPageAnswer?.GetInvocationList(), new ManiaLinkPageActionGbxEventArgs
                 {
                     PlayerId = (int) XmlRpcTypes.ToNativeValue<int>(call.Arguments[0]),
@@ -151,7 +135,7 @@ public partial class GbxRemoteClient
                     Entries = (TmSEntryVal[]) XmlRpcTypes.ToNativeValue<TmSEntryVal>(call.Arguments[3])
                 });
                 break;
-            case "ManiaPlanet.MapListModified":
+            case "TrackMania.MapListModified":
                 await InternalInvokeEventsAsync(OnMapListModified?.GetInvocationList(), new MapListModifiedGbxEventArgs
                 {
                     CurrentMapIndex = (int) XmlRpcTypes.ToNativeValue<int>(call.Arguments[0]),
@@ -159,13 +143,13 @@ public partial class GbxRemoteClient
                     IsListModified = (bool) XmlRpcTypes.ToNativeValue<bool>(call.Arguments[2])
                 });
                 break;
-            case "ManiaPlanet.ServerStart":
+            case "TrackMania.ServerStart":
                 await InternalInvokeEventsAsync(OnServerStart?.GetInvocationList(), new EventArgs());
                 break;
-            case "ManiaPlanet.ServerStop":
+            case "TrackMania.ServerStop":
                 await InternalInvokeEventsAsync(OnServerStop?.GetInvocationList(), new EventArgs());
                 break;
-            case "ManiaPlanet.TunnelDataReceived":
+            case "TrackMania.TunnelDataReceived":
                 await InternalInvokeEventsAsync(OnTunnelDataReceived?.GetInvocationList(), new TunnelDataGbxEventArgs
                 {
                     PlayerId = (int) XmlRpcTypes.ToNativeValue<int>(call.Arguments[0]),
@@ -173,7 +157,7 @@ public partial class GbxRemoteClient
                     Data = (GbxBase64) XmlRpcTypes.ToNativeValue<GbxBase64>(call.Arguments[2])
                 });
                 break;
-            case "ManiaPlanet.VoteUpdated":
+            case "TrackMania.VoteUpdated":
                 await InternalInvokeEventsAsync(OnVoteUpdated?.GetInvocationList(), new VoteUpdatedGbxEventArgs
                 {
                     StateName = (string) XmlRpcTypes.ToNativeValue<string>(call.Arguments[0]),
@@ -182,7 +166,7 @@ public partial class GbxRemoteClient
                     CmdParam = (string) XmlRpcTypes.ToNativeValue<string>(call.Arguments[3])
                 });
                 break;
-            case "ManiaPlanet.BillUpdated":
+            case "TrackMania.BillUpdated":
                 await InternalInvokeEventsAsync(OnBillUpdated?.GetInvocationList(), new BillUpdatedGbxEventArgs
                 {
                     BillId = (int) XmlRpcTypes.ToNativeValue<int>(call.Arguments[0]),
@@ -191,7 +175,7 @@ public partial class GbxRemoteClient
                     TransactionId = (int) XmlRpcTypes.ToNativeValue<int>(call.Arguments[3])
                 });
                 break;
-            case "ManiaPlanet.PlayerAlliesChanged":
+            case "TrackMania.PlayerAlliesChanged":
                 await InternalInvokeEventsAsync(OnPlayerAlliesChanged?.GetInvocationList(), new PlayerGbxEventArgs
                 {
                     Login = (string) XmlRpcTypes.ToNativeValue<string>(call.Arguments[0])

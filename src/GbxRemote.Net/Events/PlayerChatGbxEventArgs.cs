@@ -14,9 +14,4 @@ public class PlayerChatGbxEventArgs : PlayerGbxEventArgs
     /// Whether the message is a command or not.
     /// </summary>
     public bool IsRegisteredCmd { get; set; }
-    /// <summary>
-    /// Chat options that indicates the message channel.
-    /// 0: Default, 1: ToSpectatorCurrent, 2: ToSpectatorAll, 3: ToTeam
-    /// </summary>
-    public int Options { get; set; }
 }

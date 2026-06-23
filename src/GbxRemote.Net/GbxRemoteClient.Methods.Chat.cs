@@ -79,15 +79,15 @@ public partial class GbxRemoteClient
         );
     }
 
-    public async Task<bool> ChatEnableManualRoutingAsync(bool enable, bool forward)
+    public async Task<bool> ChatEnableManualRoutingAsync(bool enable)
     {
         return (bool) XmlRpcTypes.ToNativeValue<bool>(
-            await CallOrFaultAsync("ChatEnableManualRouting", enable, forward)
+            await CallOrFaultAsync("ChatEnableManualRouting", enable)
         );
     }
 
     public Task<bool> ChatEnableManualRoutingAsync() =>
-        ChatEnableManualRoutingAsync(true, false);
+        ChatEnableManualRoutingAsync(true);
 
     public async Task<bool> ChatForwardToLoginAsync(string text, string senderLogin, string destinationLogin)
     {

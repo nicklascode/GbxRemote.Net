@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using GbxRemoteNet.Enums;
 using GbxRemoteNet.Events;
 using GbxRemoteNet.Interfaces.XmlRpc;
 using GbxRemoteNet.Structs;
@@ -94,12 +93,12 @@ public interface IGbxRemoteClient : INadeoXmlRpcClient
     /// <summary>
     /// When the map has loaded on the server.
     /// </summary>
-    public event AsyncEventHandler<MapGbxEventArgs> OnBeginMap;
+    public event AsyncEventHandler<ChallengeGbxEventArgs> OnBeginChallenge;
 
     /// <summary>
     /// When the map unloads from the server.
     /// </summary>
-    public event AsyncEventHandler<MapGbxEventArgs> OnEndMap;
+    public event AsyncEventHandler<ChallengeGbxEventArgs> OnEndChallenge;
 
     /// <summary>
     /// When the server status changed.
@@ -167,13 +166,8 @@ public interface IGbxRemoteClient : INadeoXmlRpcClient
     /// </summary>
     /// <param name="gbxCallbackType">The callback type to enable. Can be combined.</param>
     /// <returns></returns>
-    public Task EnableCallbackTypeAsync(GbxCallbackType gbxCallbackType);
-
-    /// <summary>
-    /// Enable all callbacks.
-    /// </summary>
-    /// <returns></returns>
     public Task EnableCallbackTypeAsync();
+
     #endregion
 
     #region Methods
@@ -277,9 +271,8 @@ public interface IGbxRemoteClient : INadeoXmlRpcClient
     /// forwarded. Only available to Admin.
     /// </summary>
     /// <param name="enable">Whether to enable manual chat routing or not.</param>
-    /// <param name="forward">Whether to forward all messages to the chat.</param>
     /// <returns></returns>
-    public Task<bool> ChatEnableManualRoutingAsync(bool enable, bool forward);
+    public Task<bool> ChatEnableManualRoutingAsync(bool enable);
     
     /// <summary>
     /// Enable manual chat routing and disable forwarding.
@@ -1322,156 +1315,6 @@ public interface IGbxRemoteClient : INadeoXmlRpcClient
 
     #endregion
 
-    #region Script
-
-    /// <summary>
-    /// Get the current mode script.
-    /// </summary>
-    /// <returns></returns>
-    public Task<string> GetModeScriptTextAsync();
-    /// <summary>
-    /// Set the mode script and restart. Only available to Admin.
-    /// </summary>
-    /// <param name="script"></param>
-    /// <returns></returns>
-    public Task<bool> SetModeScriptTextAsync(string script);
-
-    /// <summary>
-    /// Returns the description of the current mode script, as a structure containing: Name, CompatibleTypes, Description,
-    /// Version and the settings available.
-    /// </summary>
-    /// <returns></returns>
-    public Task<TmScriptInfo> GetModeScriptInfoAsync();
-
-    /// <summary>
-    /// Returns the current settings of the mode script.
-    /// </summary>
-    /// <returns></returns>
-    public Task<GbxDynamicObject> GetModeScriptSettingsAsync();
-
-    /// <summary>
-    /// Change the settings of the mode script. Only available to Admin.
-    /// </summary>
-    /// <param name="modescriptSettings"></param>
-    /// <returns></returns>
-    public Task<bool> SetModeScriptSettingsAsync(GbxDynamicObject modescriptSettings);
-
-    /// <summary>
-    /// Send commands to the mode script. Only available to Admin.
-    /// </summary>
-    /// <param name="commands"></param>
-    /// <returns></returns>
-    public Task<bool> SendModeScriptCommandsAsync(GbxDynamicObject commands);
-
-    /// <summary>
-    /// Change the settings and send commands to the mode script. Only available to Admin.
-    /// </summary>
-    /// <param name="settings"></param>
-    /// <param name="modeScript"></param>
-    /// <returns></returns>
-    public Task<bool> SetModeScriptSettingsAndCommandsAsync(GbxDynamicObject settings,
-        GbxDynamicObject modeScript);
-
-    /// <summary>
-    /// Returns the current xml-rpc variables of the mode script.
-    /// </summary>
-    /// <returns></returns>
-    public Task<GbxDynamicObject> GetModeScriptVariablesAsync();
-
-    /// <summary>
-    /// Set the xml-rpc variables of the mode script. Only available to Admin.
-    /// </summary>
-    /// <param name="xmlRpcVar"></param>
-    /// <returns></returns>
-    public Task<bool> SetModeScriptVariablesAsync(GbxDynamicObject xmlRpcVar);
-
-    /// <summary>
-    /// Send an event to the mode script. Only available to Admin.
-    /// </summary>
-    /// <param name="modeScript"></param>
-    /// <param name="eventName"></param>
-    /// <returns></returns>
-    public Task<bool> TriggerModeScriptEventAsync(string modeScript, string eventName);
-
-    /// <summary>
-    /// Send an event to the mode script. Only available to Admin.
-    /// </summary>
-    /// <param name="method"></param>
-    /// <param name="parameters"></param>
-    /// <returns></returns>
-    public Task<bool> TriggerModeScriptEventArrayAsync(string method, params string[] parameters);
-
-    /// <summary>
-    /// Set the ServerPlugin settings.
-    /// </summary>
-    /// <param name="forceReload">Whether to reload from disk</param>
-    /// <param name="filename">OPTIONAL: Name the filename relative to Scripts/directory</param>
-    /// <param name="script">OPTIONAL: The script #Settings to apply.</param>
-    /// <returns></returns>
-    public Task<bool> SetServerPluginAsync(bool forceReload, string filename, GbxDynamicObject script);
-    
-    /// <summary>
-    /// Set the ServerPlugin settings.
-    /// </summary>
-    /// <param name="forceReload">Whether to reload from disk</param>
-    /// <returns></returns>
-    public Task<bool> SetServerPluginAsync(bool forceReload);
-    
-    /// <summary>
-    /// Set the ServerPlugin settings.
-    /// </summary>
-    /// <param name="forceReload">Whether to reload from disk</param>
-    /// <param name="filename">OPTIONAL: Name the filename relative to Scripts/directory</param>
-    /// <returns></returns>
-    public Task<bool> SetServerPluginAsync(bool forceReload, string filename);
-
-    /// <summary>
-    /// Get the ServerPlugin current settings.
-    /// </summary>
-    /// <returns></returns>
-    public Task<GbxDynamicObject> GetServerPluginAsync();
-
-    /// <summary>
-    /// Send an event to the server script. Only available to Admin.
-    /// </summary>
-    /// <returns></returns>
-    public Task<GbxDynamicObject> GetServerPluginVariablesAsync();
-
-    /// <summary>
-    /// Returns the current xml-rpc variables of the server script.
-    /// </summary>
-    /// <param name="method"></param>
-    /// <param name="param2"></param>
-    /// <returns></returns>
-    public Task<bool> TriggerServerPluginEventAsync(string method, string param2);
-
-    /// <summary>
-    /// Send an event to the server script. Only available to Admin.
-    /// </summary>
-    /// <param name="method"></param>
-    /// <param name="param2"></param>
-    /// <returns></returns>
-    public Task<bool> TriggerServerPluginEventArrayAsync(string method, string[] param2);
-
-    /// <summary>
-    /// Get the script cloud variables of given object. Only available to Admin.
-    /// </summary>
-    /// <param name="type"></param>
-    /// <param name="id"></param>
-    /// <returns></returns>
-    public Task<GbxDynamicObject> GetScriptCloudVariablesAsync(string type, string id);
-
-    /// <summary>
-    /// Set the script cloud variables of given object. Only available to Admin.
-    /// </summary>
-    /// <param name="type"></param>
-    /// <param name="id"></param>
-    /// <param name="variables"></param>
-    /// <returns></returns>
-    public Task<bool> SetScriptCloudVariablesAsync(string type, string id, GbxDynamicObject variables);
-
-    #endregion
-
     #region Server
 
     /// <summary>
@@ -2137,52 +1980,6 @@ public interface IGbxRemoteClient : INadeoXmlRpcClient
     public Task<TmCallVoteRatio[]> GetCallVoteRatiosAsync();
 
     #endregion
-
-    #endregion
-
-    #region ModeScript
-
-    /// <summary>
-    /// Action for the OnModeScriptCallback event-
-    /// </summary>
-    /// <param name="method">Name of the method that was called.</param>
-    /// <param name="data">Parsed JSON data that came with the callback.</param>
-    /// <returns></returns>
-    public delegate Task ModeScriptCallbackAction(string method, JObject data);
-
-    /// <summary>
-    /// Triggered when any ModeScript callback is sent from the server.
-    /// </summary>
-    public event ModeScriptCallbackAction OnModeScriptCallback;
-
-    /// <summary>
-    /// Call a ModeScript method and wait for the response.
-    /// </summary>
-    /// <param name="method">Name of the method.</param>
-    /// <param name="args">Parameters to be passed with the method call.</param>
-    /// <returns>Parsed JSON result from the method call.</returns>
-    public Task<(JObject, XmlRpcBaseType[])> GetModeScriptResponseAsync(string method, params string[] args);
-
-    /// <summary>
-    /// Call a ModeScript method and wait for the response and convert it to a native type.
-    /// </summary>
-    /// <param name="method">Name of the method.</param>
-    /// <param name="args">Parameters to be passed with the method call.</param>
-    /// <typeparam name="TResponse">Type of the response data.</typeparam>
-    /// <returns>Parsed JSON result from the method call.</returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    public Task<TResponse> GetModeScriptResponseAsync<TResponse>(string method, params string[] args);
-
-    /// <summary>
-    /// Call a ModeScript method and wait for the response and convert it to a native type.
-    /// </summary>
-    /// <param name="method">Name of the method.</param>
-    /// <param name="args">Parameters to be passed with the method call.</param>
-    /// <typeparam name="TResponse">Type of the response data.</typeparam>
-    /// <typeparam name="TExtraArg">Type of the extra argument of the callback.</typeparam>
-    /// <returns>Parsed JSON result from the method call.</returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    public Task<(TResponse, TExtraArg)> GetModeScriptResponseAsync<TResponse, TExtraArg>(string method, params string[] args);
 
     #endregion
 }
