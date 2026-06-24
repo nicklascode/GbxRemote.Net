@@ -53,6 +53,7 @@ public partial class GbxRemoteClient
         );
     }
 
+    [Obsolete]
     public async Task<TmPlayerRanking[]> GetCurrentRankingForLoginAsync(string playerLogin)
     {
         return (TmPlayerRanking[]) XmlRpcTypes.ToNativeValue<TmPlayerRanking>(

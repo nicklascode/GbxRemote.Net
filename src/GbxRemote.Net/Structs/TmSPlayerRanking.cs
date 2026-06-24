@@ -25,32 +25,27 @@ public class TmSPlayerRanking
     public int Rank { get; set; }
 
     /// <summary>
-    ///     Legacy
+    ///     TM2
     /// </summary>
-    [Obsolete]
     public int BestTime { get; set; }
 
     /// <summary>
-    ///     Legacy
+    ///     TM2
     /// </summary>
-    [Obsolete]
     public int[] BestCheckpoints { get; set; }
 
     /// <summary>
-    ///     Legacy
+    ///     TM2
     /// </summary>
-    [Obsolete]
     public int Score { get; set; }
 
     /// <summary>
-    ///     Legacy
+    ///     TM2
     /// </summary>
-    [Obsolete]
     public int NbrLapsFinished { get; set; }
 
     /// <summary>
-    ///     Legacy
+    ///     TM2
     /// </summary>
-    [Obsolete]
     public double LadderScore { get; set; }
 }

@@ -18,4 +18,22 @@ public class TmPlayerRanking
     public int NbrLapsFinished { get; set; }
 
     public double LadderScore { get; set; }
+
+    public override string ToString()
+    {
+        string formatted = 
+        @$"
+            Login: {Login}
+            NickName: {NickName}
+            PlayerId: {PlayerId}
+            Rank: {Rank}
+            BestTime: {BestTime}
+            BestCheckpoints: {string.Join(", ", BestCheckpoints)}
+            Score: {Score}
+            NbrLapsFinished: {NbrLapsFinished}
+            LadderScore: {LadderScore}
+        ";
+
+        return formatted;
+    }
 }

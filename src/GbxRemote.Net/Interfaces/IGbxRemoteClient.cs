@@ -83,22 +83,22 @@ public interface IGbxRemoteClient : INadeoXmlRpcClient
     /// <summary>
     /// When the match itself starts, triggered after begin map.
     /// </summary>
-    public event AsyncEventHandler OnBeginMatch;
+    public event AsyncEventHandler OnBeginRound;
 
     /// <summary>
     /// When the match ends, does not give a lot of info in TM2020.
     /// </summary>
-    public event AsyncEventHandler<EndMatchGbxEventArgs> OnEndMatch;
+    public event AsyncEventHandler OnEndRound;
 
     /// <summary>
     /// When the map has loaded on the server.
     /// </summary>
-    public event AsyncEventHandler<ChallengeGbxEventArgs> OnBeginChallenge;
+    public event AsyncEventHandler<ChallengeBeginGbxEventArgs> OnBeginChallenge;
 
     /// <summary>
     /// When the map unloads from the server.
     /// </summary>
-    public event AsyncEventHandler<ChallengeGbxEventArgs> OnEndChallenge;
+    public event AsyncEventHandler<ChallengeEndGbxEventArgs> OnEndChallenge;
 
     /// <summary>
     /// When the server status changed.

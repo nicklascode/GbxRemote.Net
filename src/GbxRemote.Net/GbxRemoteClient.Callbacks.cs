@@ -17,10 +17,10 @@ public partial class GbxRemoteClient
     public event IGbxRemoteClient.AsyncEventHandler<PlayerDisconnectGbxEventArgs> OnPlayerDisconnect;
     public event IGbxRemoteClient.AsyncEventHandler<PlayerChatGbxEventArgs> OnPlayerChat;
     public event IGbxRemoteClient.AsyncEventHandler<EchoGbxEventArgs> OnEcho;
-    public event IGbxRemoteClient.AsyncEventHandler OnBeginMatch;
-    public event IGbxRemoteClient.AsyncEventHandler<EndMatchGbxEventArgs> OnEndMatch;
-    public event IGbxRemoteClient.AsyncEventHandler<ChallengeGbxEventArgs> OnBeginChallenge;
-    public event IGbxRemoteClient.AsyncEventHandler<ChallengeGbxEventArgs> OnEndChallenge;
+    public event IGbxRemoteClient.AsyncEventHandler OnBeginRound;
+    public event IGbxRemoteClient.AsyncEventHandler OnEndRound;
+    public event IGbxRemoteClient.AsyncEventHandler<ChallengeBeginGbxEventArgs> OnBeginChallenge;
+    public event IGbxRemoteClient.AsyncEventHandler<ChallengeEndGbxEventArgs> OnEndChallenge;
     public event IGbxRemoteClient.AsyncEventHandler<StatusChangedGbxEventArgs> OnStatusChanged;
     public event IGbxRemoteClient.AsyncEventHandler<PlayerInfoChangedGbxEventArgs> OnPlayerInfoChanged;
     public event IGbxRemoteClient.AsyncEventHandler<ManiaLinkPageActionGbxEventArgs> OnPlayerManialinkPageAnswer;
@@ -91,26 +91,30 @@ public partial class GbxRemoteClient
                     PublicParam = (string) XmlRpcTypes.ToNativeValue<string>(call.Arguments[1])
                 });
                 break;
-            case "TrackMania.BeginMatch":
-                await InternalInvokeEventsAsync(OnBeginMatch?.GetInvocationList(), new EventArgs());
+            case "TrackMania.BeginRound":
+                await InternalInvokeEventsAsync(OnBeginRound?.GetInvocationList(), new EventArgs());
                 break;
-            case "TrackMania.EndMatch":
-                await InternalInvokeEventsAsync(OnEndMatch?.GetInvocationList(), new EndMatchGbxEventArgs
+            case "TrackMania.EndRound":
+                await InternalInvokeEventsAsync(OnEndRound?.GetInvocationList(), new EventArgs());
+                break;
+            case "TrackMania.BeginChallenge":
+                await InternalInvokeEventsAsync(OnBeginChallenge?.GetInvocationList(), new ChallengeBeginGbxEventArgs
+                {
+                    Challenge = (TmSChallengeInfo) XmlRpcTypes.ToNativeValue<TmSChallengeInfo>(call.Arguments[0]),
+                    WarmpUp= (bool) XmlRpcTypes.ToNativeValue<bool>(call.Arguments[1]),
+                    MatchContinuation = (bool) XmlRpcTypes.ToNativeValue<bool>(call.Arguments[2])
+
+                });
+                break;
+            case "TrackMania.EndChallenge":
+                await InternalInvokeEventsAsync(OnEndChallenge?.GetInvocationList(), new ChallengeEndGbxEventArgs
                 {
                     Rankings = (TmSPlayerRanking[]) XmlRpcTypes.ToNativeValue<TmSPlayerRanking>(call.Arguments[0]),
-                    WinnerTeam = (int) XmlRpcTypes.ToNativeValue<int>(call.Arguments[1])
-                });
-                break;
-            case "TrackMania.BeginMap":
-                await InternalInvokeEventsAsync(OnBeginChallenge?.GetInvocationList(), new ChallengeGbxEventArgs
-                {
-                    Map = (TmSChallengeInfo) XmlRpcTypes.ToNativeValue<TmSChallengeInfo>(call.Arguments[0])
-                });
-                break;
-            case "TrackMania.EndMap":
-                await InternalInvokeEventsAsync(OnEndChallenge?.GetInvocationList(), new ChallengeGbxEventArgs
-                {
-                    Map = (TmSChallengeInfo) XmlRpcTypes.ToNativeValue<TmSChallengeInfo>(call.Arguments[0])
+                    Challenges = (TmSChallengeInfo) XmlRpcTypes.ToNativeValue<TmSChallengeInfo>(call.Arguments[1]),
+                    WasWarmUp = (bool) XmlRpcTypes.ToNativeValue<bool>(call.Arguments[2]),
+                    MatchContinuesOnNextChallenge = (bool) XmlRpcTypes.ToNativeValue<bool>(call.Arguments[3]),
+                    ResetChallenge = (bool) XmlRpcTypes.ToNativeValue<bool>(call.Arguments[4])
+
                 });
                 break;
             case "TrackMania.StatusChanged":
